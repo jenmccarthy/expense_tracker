@@ -27,6 +27,15 @@ class Expense
     DB.exec("INSERT into expenses_categories (expense_id, category_id) VALUES (#{@id}, #{id});")
   end
 
+  def self.time_period(start_date, end_date)
+    expenses = []
+    results = DB.exec("SELECT * FROM expenses WHERE date BETWEEN '#{start_date}' AND '#{end_date}';")
+    results.each do |result|
+      expenses << Expense.new(result)
+    end
+    expenses
+  end
+
   def ==(another_expense)
     @description == another_expense.description && @amount == another_expense.amount && @date == another_expense.date
   end

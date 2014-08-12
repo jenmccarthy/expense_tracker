@@ -3,6 +3,7 @@ require 'expense'
 require 'category'
 require 'pg'
 require 'pry'
+require 'time'
 
 DB = PG.connect({:dbname => 'expense_organizer_test'})
 
