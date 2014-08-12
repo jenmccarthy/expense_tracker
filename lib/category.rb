@@ -65,4 +65,12 @@ attr_accessor :name, :id, :budget
     end
     total = money.inject{|sum, x| sum + x}
   end
+
+  def in_budget
+    budgets = DB.exec("SELECT * FROM categories WHERE id = #{self.id}")
+    budgets.each do |cat|
+      budget = cat['budget']
+    end
+    over_under = budget - self.money_spent
+  end
 end

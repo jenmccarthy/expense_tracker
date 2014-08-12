@@ -65,4 +65,18 @@ describe 'Category' do
     expect(test_category.money_spent).to eq 40.99
   end
 
+  it 'will compare the money spent in a category to the budget and return the amount left over or overdrawn' do
+    test_expense = Expense.new({'description' => 'Pizza', 'amount' => 10.99, 'date' => '2014-03-14'})
+    test_expense.save
+    test_expense1 = Expense.new({'description' => 'Drinks', 'amount' => 30.00, 'date' => '2014-05-15'})
+    test_expense1.save
+    test_expense2 = Expense.new({'description' => 'Shoes', 'amount' => 50.00, 'date' => '2014-05-12'})
+    test_expense2.save
+    test_category = Category.new({'name' => 'Dining', 'budget' => 100})
+    test_category.save
+    test_expense.add_cat(test_category.id)
+    test_expense1.add_cat(test_category.id)
+    expect(test_category.in_budget).to eq 59.01
+  end
+
 end
