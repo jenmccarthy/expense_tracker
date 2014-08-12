@@ -31,9 +31,6 @@ describe Expense do
     expect(test_expense).to eq test_expense1
   end
 
-  # it 'will list out all expenses in the same category' do
-  #   test_expense = Expense.new({'description' => 'Pizza', 'amount' => 10.99, 'date' => '3/14/14', 'category' => 'Food'})
-
 
 end
 

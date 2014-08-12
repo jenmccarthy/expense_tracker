@@ -23,6 +23,10 @@ class Expense
     @id = results.first['id'].to_i
   end
 
+  def add_cat(id)
+    DB.exec("INSERT into expenses_categories (expense_id, category_id) VALUES (#{@id}, #{id});")
+  end
+
   def ==(another_expense)
     @description == another_expense.description && @amount == another_expense.amount && @date == another_expense.date
   end
