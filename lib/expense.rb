@@ -36,6 +36,11 @@ class Expense
     expenses
   end
 
+  def delete_expense
+    DB.exec("DELETE FROM expenses WHERE id = #{@id};")
+    DB.exec("DELETE FROM expenses_categories WHERE expense_id = #{@id};")
+  end
+
   def ==(another_expense)
     @description == another_expense.description && @amount == another_expense.amount && @date == another_expense.date
   end

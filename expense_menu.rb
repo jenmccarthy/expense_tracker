@@ -21,8 +21,8 @@ def list_all_categories
     puts "Please add a category"
     create_category
   else
-    Category.all.each_with_index do |cat, index|
-      name = cat.name
+    Category.all.each_with_index do |category, index|
+      name = category.name
       puts "[#{index + 1}] #{name}\n\n"
     end
   end
@@ -42,6 +42,7 @@ def list_all_expenses
 end
 
 def expense_menu
+  loop do
     list_all_expenses
     puts"\n\n"
     puts "Press [a] to add an expense"
@@ -52,12 +53,15 @@ def expense_menu
       add_expense
     elsif menu_choice == 'c'
       check_category
+    elsif menu_choice == 'd'
+      delete_expense
     elsif menu_choice == 'x'
       exit
       puts "Goodbye!"
     else
       puts "That is not a valid input, please choose again"
     end
+  end
 end
 
 def add_expense
@@ -100,21 +104,43 @@ def check_category
   list_all_categories
   puts "Which category would you like to view?"
   cat_choice = gets.chomp.to_i
-  Category.all.each_with_index do |cat, index|
-    if index == (cat_choice - 1)
-      results = cat.expenses
-      results.each do |result|
+  chosen_category = Category.all[cat_choice - 1]
+  @budget = chosen_category.budget
+  @money_spent = chosen_category.money_spent
+  @leftovers = chosen_category.in_budget
+    @results = chosen_category.expenses
+    @results.each do |result|
         date = result.date
         description = result.description
         amount = result.amount
         puts "#{date} -- #{description} -- #{amount}"
-        puts "******************************************************"
-      break
-      end
+    end
+
+  ## show budget
+  puts "Here is the total amount you have alloted this category: #{@budget}"
+  puts "Here is the total you have spent in this category: #{@money_spent}"
+  puts "Here is your remaining dollars for this category: #{@leftovers}"
+  #total spent
+  #how much left over, if any (or error message)
+  puts "\n\n\n\n"
+end
+
+def delete_expense
+  puts "\n\nWhich expense would you like to delete?"
+  Expense.all.each_with_index do |expense, index|
+    date = expense.date
+    description = expense.description
+    amount = expense.amount
+    puts "[#{index +1}] #{date} -- #{description} -- #{amount}"
+  end
+  expense_choice = gets.chomp.to_i
+  Expense.all.each_with_index do |expense,index|
+    if expense_choice - 1 == index
+      expense.delete_expense
       break
     else
-      puts "Sorry! Input a valid option."
-      break
+      puts "Sorry! Try again"
+      delete_expense
     end
   end
 end

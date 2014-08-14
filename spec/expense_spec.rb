@@ -31,6 +31,13 @@ describe Expense do
     expect(test_expense).to eq test_expense1
   end
 
+  it 'will delete an expense from the database' do
+    test_expense = Expense.new({'description' => 'Pizza', 'amount' => 4.99, 'date' => '2014-04-23'})
+    test_expense.save
+    test_expense.delete_expense
+    expect(Expense.all).to eq []
+  end
+
 describe 'self.time_period' do
   it 'will return all the expenses for a certain time period' do
     test_expense1 = Expense.new({'description' => 'Pizza', 'amount' => 10.99, 'date' => '2014-03-14'})

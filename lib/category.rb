@@ -55,7 +55,7 @@ attr_accessor :name, :id, :budget
   end
 
   def ==(another_category)
-    @name == another_category.name
+    self.name == another_category.name
   end
 
   def money_spent
@@ -67,10 +67,10 @@ attr_accessor :name, :id, :budget
   end
 
   def in_budget
-    budgets = DB.exec("SELECT * FROM categories WHERE id = #{self.id}")
-    budgets.each do |cat|
-      budget = cat['budget']
-    end
-    over_under = budget - self.money_spent
+    # budgets = DB.exec("SELECT * FROM categories WHERE id = #{self.id};")
+    # budgets.each do |cat|
+    #  budget = cat['budget']
+    # end
+    over_under = self.budget.to_f - self.money_spent if self.money_spent
   end
 end
